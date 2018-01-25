@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package example.test;
+option go_package = "example.test";
+
+import "test2/test2.proto";
+
+service Test{
+    rpc Hello(TestReq) returns(TestResp){}
+}
+
+
+message TestReq{
+    int64 id = 1;
+    example.test2.Test2 test2 = 2;
+    map<string,example.test2.Test2> test2_map = 3;
+    oneof avatar {
+        string image_url = 4;
+        bytes image_data = 5;
+    }
+    enum Corpus {
+        UNIVERSAL = 0;
+        WEB = 1;
+        IMAGES = 2;
+        LOCAL = 3;
+        NEWS = 4;
+        PRODUCTS = 5;
+        VIDEO = 6;
+    }
+    Corpus corpus = 6;
+}
+
+message TestResp{
+    int64 id = 1;
+    example.test2.Test2 test2 = 2;
+    map<string,example.test2.Test2> test2_map = 3;
+    oneof avatar {
+        string image_url = 4;
+        bytes image_data = 5;
+    }
+    enum Corpus {
+        UNIVERSAL = 0;
+        WEB = 1;
+        IMAGES = 2;
+        LOCAL = 3;
+        NEWS = 4;
+        PRODUCTS = 5;
+        VIDEO = 6;
+    }
+    Corpus corpus = 6;
+}

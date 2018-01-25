@@ -1,0 +1,7 @@
+[
+  {
+    "method": "POST",
+    "path": "/users",
+    "handler": "github.com/ipiao/me/test/projects/pro-echo/controllers.SaveUser"
+  }
+]
