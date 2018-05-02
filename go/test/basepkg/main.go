@@ -1,47 +1,68 @@
 package main
 
-import (
-	"fmt"
-	"os"
-	"os/signal"
-	"sync"
-	"syscall"
-	"time"
-)
+// func main() {
+// 	runtime.GOMAXPROCS(1)
+
+// 	var gChan = make(chan string, 20)
+// 	go func() {
+// 		for s := range gChan {
+// 			fmt.Println(s)
+// 		}
+// 	}()
+// 	var wg sync.WaitGroup
+// 	wg.Add(2)
+// 	go func() {
+// 		defer func() {
+// 			defer wg.Done()
+// 			gChan <- "A done"
+// 		}()
+// 		for i := 0; i < 3; i++ {
+// 			gChan <- fmt.Sprint("A", i)
+// 			go func(i int) {
+// 				gChan <- fmt.Sprint("AG", i)
+// 			}(i)
+// 		}
+// 	}()
+// 	go func() {
+// 		defer func() {
+// 			defer wg.Done()
+// 			gChan <- "B done"
+// 		}()
+
+// 		for i := 0; i < 3; i++ {
+// 			gChan <- fmt.Sprint("B", i)
+// 			go func(i int) {
+// 				gChan <- fmt.Sprint("BG", i)
+// 			}(i)
+// 		}
+// 	}()
+// 	time.Sleep(time.Second)
+// 	wg.Wait()
+// 	gChan <- "done waiting"
+// 	time.Sleep(time.Second)
+// }
+
+type Test struct {
+	Name string
+}
+
+var list map[string]*Test
+
+type S struct {
+}
+
+func f(x interface{}) {
+}
+
+func g(x *interface{}) {
+}
 
 func main() {
-	sigRecv1 := make(chan os.Signal, 1)
-	sigs1 := []os.Signal{syscall.SIGINT, syscall.SIGQUIT}
-	fmt.Printf("Set notification for %s... [sigRecv1]\n", sigs1)
-	signal.Notify(sigRecv1, sigs1...)
-	sigRecv2 := make(chan os.Signal, 1)
-	sigs2 := []os.Signal{syscall.SIGQUIT}
-	fmt.Printf("Set notification for %s... [sigRecv2]\n", sigs2)
-	signal.Notify(sigRecv2, sigs2...)
-
-	var wg sync.WaitGroup
-	wg.Add(2)
-	go func() {
-		for sig := range sigRecv1 {
-			fmt.Printf("Received a signal from sigRecv1: %s\n", sig)
-		}
-		fmt.Printf("End. [sigRecv1]\n")
-		wg.Done()
-	}()
-	go func() {
-		for sig := range sigRecv2 {
-			fmt.Printf("Received a signal from sigRecv2: %s\n", sig)
-		}
-		fmt.Printf("End. [sigRecv2]\n")
-		wg.Done()
-	}()
-
-	fmt.Println("Wait for 20 seconds... ")
-	time.Sleep(20 * time.Second)
-	fmt.Printf("Stop notification...")
-	signal.Stop(sigRecv1)
-	close(sigRecv1)
-	fmt.Printf("done. [sigRecv1]\n")
-	wg.Wait()
+	s := S{}
+	p := &s
+	f(s) //A
+	g(s) //B
+	f(p) //C
+	g(p) //D
 
 }
