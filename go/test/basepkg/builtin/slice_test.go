@@ -41,3 +41,16 @@ func returnslice(hs []Hello) []Hello {
 	}
 	return hs
 }
+
+func TestCopy(t *testing.T) {
+	s := make([]int, 50)
+	copy(s[3:], s[2:])
+	s = s[:len(s)-1]
+	t.Log(s)
+}
+
+func TestCopy2(t *testing.T) {
+	s := make([]int, 50)
+	s = append(s[:2], s[3:]...)
+	t.Log(s)
+}

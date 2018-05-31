@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 type EmptyInterface interface {
 }
@@ -27,10 +30,22 @@ func TestWithFuncInterface(i WithFuncInterface) {
 func TestWithFuncStruct(i *TestStruct) {
 	fmt.Printf("Struce Interface: %v\n", i == nil)
 }
+
+// func main() {
+// 	var test *TestStruct = nil
+// 	TestEmptyInterface(test)
+// 	TestWithFuncInterface(test)
+// 	TestWithFuncStruct(test)
+// 	test.Func()
+// }
+
+func sum(id int) {
+	var x int64
+	for i := 0; i < math.MaxUint32; i++ {
+		x += int64(i)
+	}
+	println(id, x)
+}
 func main() {
-	var test *TestStruct = nil
-	TestEmptyInterface(test)
-	TestWithFuncInterface(test)
-	TestWithFuncStruct(test)
-	test.Func()
+
 }
