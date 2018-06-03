@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math"
 )
 
@@ -47,5 +48,5 @@ func sum(id int) {
 	println(id, x)
 }
 func main() {
-
+	log.Println("hello")
 }
