@@ -19,8 +19,14 @@ func main() {
 
 
 func fordo(){
+	r := remote.NewRemote("https://nsj-m.yy0578.com")
+	ret := make(map[string]interface{})
+
 	for{
-		do()
+		err := r.Post("/v1/bbs/queryDetails", map[string]interface{}{"detailId": "654"}, &ret)
+		if err != nil {
+			log.Println(err)
+		}
 		time.Sleep(time.Millisecond*5)
 	}
 }
