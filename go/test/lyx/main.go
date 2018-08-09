@@ -21,6 +21,7 @@ func main() {
 func fordo(){
 	for{
 		do()
+		time.Sleep(time.Millisecond*5)
 	}
 }
 
