@@ -32,6 +32,10 @@ func TestWithFuncStruct(i *TestStruct) {
 	fmt.Printf("Struce Interface: %v\n", i == nil)
 }
 
+func test() {
+	fmt.Printf("hello")
+}
+
 // func main() {
 // 	var test *TestStruct = nil
 // 	TestEmptyInterface(test)
