@@ -1,5 +1,10 @@
 package main
 
+import (
+	"fmt"
+	"hash/crc32"
+)
+
 // func main() {
 // 	runtime.GOMAXPROCS(1)
 
@@ -58,11 +63,12 @@ func g(x *interface{}) {
 }
 
 func main() {
-	s := S{}
-	p := &s
-	f(s) //A
-	g(s) //B
-	f(p) //C
-	g(p) //D
-
+	s := "ocLDat9znfZRmaJEYidoqWgOlDcM"
+	// s := "13083985232"
+	// s := "ocLDat8XUjYY17ymP9fVkx74uQVI"
+	// s := "ocLDatzbC3uivk6o-dYJK8jb0RS0"
+	// s := "oNJFD0czG4zpbRLCH_yE_dvn33qU"
+	// s := "ouVCW1Dy-C0rG78SDPyCKUeu761I"
+	no := int(crc32.ChecksumIEEE([]byte(s)) % 10)
+	fmt.Println(no)
 }

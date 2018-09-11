@@ -20,3 +20,20 @@ func TestBytes(t *testing.T) {
 		return r == ' '
 	}))
 }
+
+func TestRunes(t *testing.T) {
+	s := "中国人"
+	b := []byte(s)
+	r := bytes.Runes(b)
+	for _, bb := range b {
+		t.Log(string([]byte{bb}))
+	}
+	for _, rr := range r {
+		t.Log(string([]rune{rr}))
+	}
+	t.Log(b)
+	t.Log(r)
+}
+
+// rune  = int32
+// byte = uint8

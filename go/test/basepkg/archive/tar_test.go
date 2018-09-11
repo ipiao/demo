@@ -24,6 +24,7 @@ func TestTar(t *testing.T) {
 		{"gopher.txt", "Gopher names:\nGeorge\nGeoffrey\nGonzo"},
 		{"todo.txt", "Get animal handling license."},
 	}
+
 	for _, file := range files {
 		hdr := &tar.Header{
 			Name: file.Name,
@@ -120,4 +121,46 @@ func readFile(path string) string {
 	}
 
 	return content
+}
+
+func TestTarFile(t *testing.T) {
+	f, err := os.Create("files1.tar")
+	if err != nil {
+		t.Fatal(err)
+	}
+	tw := tar.NewWriter(f)
+	defer tw.Close()
+	files, _ := ioutil.ReadDir("files")
+	for _, file := range files {
+		tw.WriteHeader(&tar.Header{
+			Name:    file.Name(),
+			Mode:    int64(file.Mode()),
+			Size:    file.Size(),
+			ModTime: file.ModTime(),
+		})
+
+		b, _ := ioutil.ReadFile("files" + "/" + file.Name())
+		tw.Write(b)
+	}
+}
+
+func TestReadTar(t *testing.T) {
+	f, _ := os.Open("files1.tar")
+
+	for {
+		tr := tar.NewReader(f)
+		head, err := tr.Next()
+		t.Log(head)
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			t.Fatal(err)
+		}
+		bs, err := ioutil.ReadAll(tr)
+		if err != nil {
+			t.Log(head)
+		}
+		t.Log(string(bs))
+	}
 }

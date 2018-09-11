@@ -1,13 +1,14 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"math"
 	"net/url"
 	"sort"
 	"time"
+
+	"github.com/ipiao/metools/mencode"
 )
 
 type EmptyInterface interface {
@@ -36,10 +37,6 @@ func TestWithFuncStruct(i *TestStruct) {
 	fmt.Printf("Struce Interface: %v\n", i == nil)
 }
 
-<<<<<<< HEAD
-func test() {
-	fmt.Printf("hello")
-=======
 func sum(id int) {
 	var x int64
 	for i := 0; i < math.MaxUint32; i++ {
@@ -99,7 +96,6 @@ func UrlEncode() {
 	// ur3l, _ := url.Parse(urlll)
 	// // base64.URLEncoding.Decode(bs, []byte(str))
 	// fmt.Println(ur3l.EscapedPath())
->>>>>>> 45bb12ea637f4a684c510bcbc946d8d5fd809c8f
 }
 
 // func main() {
@@ -121,7 +117,9 @@ type TestTime struct {
 }
 
 func main() {
-	mt := TestTime{Mt: time.Now()}
-	bs, _ := json.Marshal(mt)
-	fmt.Println(string(bs))
+	// mt := TestTime{Mt: time.Now()}
+	// bs, _ := json.Marshal(mt)
+	// fmt.Println(string(bs))
+
+	log.Println(mencode.MD5("gh_27631a767399"))
 }
