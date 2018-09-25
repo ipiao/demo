@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package example.test;
+package test;
 option go_package = "example.test";
 
 import "test2/test2.proto";

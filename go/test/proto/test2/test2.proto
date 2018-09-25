@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package example.test2;
+option go_package = "test2";
 
 message Test2{
     int64 id = 1;
