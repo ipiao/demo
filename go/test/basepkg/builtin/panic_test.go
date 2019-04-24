@@ -28,3 +28,19 @@ func myPainc() {
 	var c = x / y
 	log.Println(c)
 }
+
+func TestForRecover(t *testing.T) {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("recover")
+		}
+	}()
+
+	for {
+		select {
+		case <-time.After(time.Second):
+			// time.Sleep(time.Second)
+			panic("")
+		}
+	}
+}

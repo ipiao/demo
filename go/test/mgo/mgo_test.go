@@ -2,6 +2,7 @@ package mgoT
 
 import (
 	"encoding/json"
+	"log"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -17,6 +18,27 @@ type Course struct {
 	Url         string
 	Tags        []string
 	Likes       float64
+}
+
+func initMgo() *mgo.Database {
+	session, err := mgo.Dial("mongodb://47.244.48.245:27017")
+	if err != nil {
+		log.Fatal(err)
+	}
+	return session.DB("test")
+}
+
+type Message struct {
+	Id      int64 `bson:"_id"`
+	Content string
+}
+
+func TestIsertMgo(t *testing.T) {
+	mgb := initMgo()
+	m := &Message{Content: "hello"}
+	mgb.C("test").Insert(m)
+	t.Log(m)
+
 }
 
 func TestMgo(t *testing.T) {

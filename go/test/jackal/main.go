@@ -22,7 +22,7 @@ type cmd struct {
 
 // 新建一个连接
 func (c *XmppClient) renewConn() error {
-	host := "47.110.83.7:5222"
+	host := "127.0.0.1:5222"
 	opts := xmpp.Options{
 		Host:                         host,
 		User:                         c.user,
@@ -33,7 +33,7 @@ func (c *XmppClient) renewConn() error {
 		NoTLS:                        true,
 		StartTLS:                     true,
 		TLSConfig:                    &tls.Config{InsecureSkipVerify: true},
-		NoAuth:                       true,
+		NoAuth:                       false,
 	}
 	client, err := opts.NewClient()
 	c.client = client
@@ -62,37 +62,67 @@ func NewXmppClient(user, passwd string, debug bool) (*XmppClient, error) {
 }
 
 func (c *XmppClient) run() {
-	chat, err := c.client.Recv()
-	if err != nil {
-		log.Println(err)
+	for {
+		chat, err := c.client.Recv()
+		if err != nil {
+			log.Println(err)
+		}
+		log.Println(chat)
 	}
-	log.Println(chat)
 }
 
-func main() {
-	// j, _ := jid.New("1000000", "localhost", "xxtest2", true)
+func upload() {
 
-	// testStm := stream.NewMockC2S(uuid.New(), j)
-
-	// testStm.SetJID(j)
-	// // 147.110.83.7
-	// log.Println(testStm)
-
-	client, err := NewXmppClient("123@xmpp.ickapay.com", "1234", true)
+	client, err := NewXmppClient("001@localhost", "1234", true)
 	if err != nil {
-		// log.Fatal("1:", err)
+		log.Fatal("1:", err)
 	}
 	defer client.client.Close()
 
-	// client.client.Register(uuid.New().String(), "1000011", "123456")
-	// client.client.Send(xmpp.Chat{})
-	// for {
-	// 	time.Sleep(time.Second)
-	// 	log.Println("22")
-	// 	n, err := client.SendKeepAlive()
-	// 	if err != nil {
-	// 		log.Fatal(err)
-	// 	}
-	// 	log.Println(n)
-	// }
+	// client.client.
+
+	client.client.SendOrg(`
+	<iq from='001@localhost'
+		id='step_03'
+		to='upload.localhost'
+		type='get'>
+	<request xmlns='urn:xmpp:http:upload:0'
+		filename='test.jpg'
+		size='161647'
+		content-type='image/jpeg' />
+	</iq>`)
+
+	//
+	// http.NewRequest("PUT", "/upload", nil)
+
+}
+
+func main() {
+	listen()
+}
+
+func listen() {
+
+	client, err := NewXmppClient("003@localhost", "1234", true)
+	if err != nil {
+		log.Fatal("1:", err)
+	}
+	defer client.client.Close()
+
+	for {
+	}
+	// client.client.SendOrg(`
+	// <iq from='001@localhost'
+	// 	id='step_03'
+	// 	to='upload.localhost'
+	// 	type='get'>
+	// <request xmlns='urn:xmpp:http:upload:0'
+	// 	filename='test.jpg'
+	// 	size='161647'
+	// 	content-type='image/jpeg' />
+	// </iq>`)
+
+	//
+	// http.NewRequest("PUT", "/upload", nil)
+
 }

@@ -2,6 +2,7 @@ package basePkgT
 
 import (
 	"fmt"
+	"log"
 	"sync"
 	"testing"
 	"time"
@@ -173,4 +174,36 @@ func TestLock(t *testing.T) {
 	lock.RLock()
 	lock.RUnlock()
 	// lock.Unlock()
+}
+
+func TestChanBreak(t *testing.T) {
+	for {
+		select {
+		case c := <-time.After(time.Second):
+			log.Println(c)
+			continue
+		}
+	}
+}
+
+func TestChanClose(t *testing.T) {
+	ch1 := make(chan int, 10)
+	for i := 1; i < 11; i++ {
+		ch1 <- i
+	}
+	sig := make(chan bool)
+	go func() {
+		time.AfterFunc(time.Millisecond*500, func() { sig <- true })
+	}()
+	for {
+		select {
+		case i, ok := <-ch1:
+			log.Println(i, ok)
+			time.Sleep(time.Millisecond * 100)
+		case <-sig:
+			close(ch1)
+			return
+			// return
+		}
+	}
 }
