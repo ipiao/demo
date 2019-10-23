@@ -1,0 +1,13 @@
+{
+    "/api/user": {
+        "method": "GET",
+        "params": [
+            {
+                "id": {
+                    "type" : "int",
+                    "validate": "required" 
+                }
+            }
+        ]
+    }
+}

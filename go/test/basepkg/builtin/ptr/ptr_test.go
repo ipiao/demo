@@ -3,6 +3,8 @@ package ptr
 import (
 	"log"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 type MyInt int
@@ -30,4 +32,21 @@ func TestPtr2(t *testing.T) {
 	t.Log(&i)
 	i1 := i.add(2)
 	t.Log(&i1, i, i1)
+}
+
+type Error struct {
+	msg string
+}
+
+func (e *Error) Error() string {
+	return e.msg
+}
+
+func TestErrNil(t *testing.T) {
+	var err = interface{}((*Error)(nil))
+	assert.Nil(t, err)
+	// t.Log(err)
+	he, ok := err.(*Error)
+	assert.True(t, ok)
+	assert.Nil(t, he)
 }

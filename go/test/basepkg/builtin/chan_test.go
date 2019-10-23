@@ -168,6 +168,33 @@ func TestChan5(t *testing.T) {
 
 }
 
+func TestChan6(t *testing.T) {
+	chCap := 3
+	var ch = make(chan int, chCap)
+	for i := 0; i < chCap; i++ {
+		ch <- i
+	}
+
+	select {
+	case ch <- chCap:
+		t.Log("block")
+	default:
+		t.Log("default")
+	}
+	<-ch
+}
+
+func TestChan7(t *testing.T) {
+	var ch = make(chan int, 1)
+	select {
+	case ch <- 1:
+		t.Log(1)
+	default:
+		t.Log("default")
+	}
+	<-ch
+}
+
 func TestLock(t *testing.T) {
 	lock := sync.RWMutex{}
 	lock.RLock()
@@ -188,7 +215,9 @@ func TestChanBreak(t *testing.T) {
 
 func TestChanClose(t *testing.T) {
 	ch1 := make(chan int, 10)
-	for i := 1; i < 11; i++ {
+	for i := 1; i < 20; i++ {
+		fmt.Printf("send %d \n", i)
+		time.Sleep(time.Millisecond * 100)
 		ch1 <- i
 	}
 	sig := make(chan bool)
@@ -197,13 +226,28 @@ func TestChanClose(t *testing.T) {
 	}()
 	for {
 		select {
-		case i, ok := <-ch1:
-			log.Println(i, ok)
+		case c := <-time.After(time.Second):
+			fmt.Printf("now : %v", c)
+		case i, _ := <-ch1:
+			fmt.Println(i)
 			time.Sleep(time.Millisecond * 100)
 		case <-sig:
 			close(ch1)
 			return
 			// return
 		}
+	}
+
+}
+
+func TestAfter(t *testing.T) {
+	ch := make(chan bool, 1)
+	// ch <- true
+	select {
+	case c := <-time.After(0):
+		t.Log(c)
+	case v := <-ch:
+		t.Log(v)
+
 	}
 }

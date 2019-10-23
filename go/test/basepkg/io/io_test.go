@@ -73,3 +73,11 @@ func TestIOReadFull(t *testing.T) {
 		t.Log("error:", err)
 	}
 }
+func TestIOReadFullBlock(t *testing.T) {
+	r := strings.NewReader("some io.Reader stream to be read\n")
+	buf := make([]byte, 1024)
+	if _, err := io.ReadFull(r, buf); err != nil {
+		log.Fatal(err)
+	}
+	t.Logf("%s\n", buf)
+}

@@ -54,3 +54,19 @@ func TestCopy2(t *testing.T) {
 	s = append(s[:2], s[3:]...)
 	t.Log(s)
 }
+
+func TestCap(t *testing.T) {
+	s := make([]int, 0, 3)
+	s = append(s, 0, 0, 0)
+	t.Log(cap(s))
+	s = append(s, 1)
+	t.Log(cap(s))
+}
+
+func TestComp(t *testing.T) {
+	s := []int{1, 2, 3, 4}
+	s1 := s
+	s2 := s
+	s2[3] = 5
+	t.Log(s1, s2)
+}
